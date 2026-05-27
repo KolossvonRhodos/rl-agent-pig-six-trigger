@@ -1,3 +1,5 @@
+"""Tabular Q-learning agent for the Pig dice game."""
+
 import random
 
 from pig_game import ROLL, HOLD
@@ -5,7 +7,23 @@ import settings
 
 
 class QAgent:
+    """Q-learning agent with an epsilon-greedy training policy.
+
+    The agent stores Q-values in a dictionary. During training, unknown states
+    are added to the Q-table. During evaluation, unknown states use a simple
+    fallback strategy to avoid completely random behavior.
+    """
+
     def __init__(self, alpha=0.1, gamma=0.95, epsilon=0.1, seed=None):
+        """Create a Q-learning agent.
+
+        Args:
+            alpha: Learning rate for Q-value updates.
+            gamma: Discount factor for future rewards.
+            epsilon: Exploration probability during training.
+            seed: Optional random seed for reproducible action selection.
+            fallback_hold_threshold: Hold threshold for unknown eval states.
+        """
         self.alpha = alpha
         self.gamma = gamma
         self.epsilon = epsilon

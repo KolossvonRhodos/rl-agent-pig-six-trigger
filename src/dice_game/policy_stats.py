@@ -1,3 +1,5 @@
+"""Policy inspection utilities for the trained Q-learning agent."""
+
 from pig_game import ROLL, HOLD
 from dummy_player import create_dummy
 from reward import standard_reward
@@ -6,6 +8,12 @@ import settings, q_agent
 
 
 def analyze_policy(agent):
+    """Inspect the agent's preferred action for selected example states.
+
+    The score values are converted to the same bucketed state representation
+    used during training. This keeps policy analysis consistent with the
+    learned Q-table.
+    """
     own_scores = [20, 50, 80]
     opponent_scores = [20, 50, 80]
     turn_totals = [0, 5, 10, 15, 20, 25, 30]
@@ -22,6 +30,7 @@ def analyze_policy(agent):
                     False
                 )
 
+                # Holding is not legal before the player has gained turn points.
                 if turn_total == 0:
                     legal_actions = [ROLL]
                 else:
@@ -39,6 +48,7 @@ def analyze_policy(agent):
     return rows
 
 def experiment_policy_statistics():
+    """Train a default agent and return policy-statistic rows for CSV export."""
     agent = q_agent.QAgent(
         alpha=settings.ALPHA,
         gamma=settings.GAMMA,

@@ -1,3 +1,10 @@
+"""Central configuration for the Pig Q-learning project.
+
+This module keeps game settings, training parameters, experiment options and
+output paths in one place. The other modules import these constants so that
+experiments are reproducible and easy to adjust.
+"""
+
 # General settings #
 TARGET_SCORE = 100
 SEED = 42

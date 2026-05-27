@@ -1,3 +1,5 @@
+"""Training loop for the Q-learning Pig agent."""
+
 from pig_game import PigGame
 from dummy_player import ThresholdDummyPlayer
 from settings import AGENT_PLAYER

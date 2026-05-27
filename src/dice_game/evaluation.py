@@ -1,8 +1,15 @@
+"""Evaluation utilities for trained Q-learning agents."""
+
 from pig_game import PigGame
 from settings import AGENT_PLAYER, DUMMY_PLAYER
 
 
 def evaluate_agent(agent, dummy_player, games=1000, target_score=100, seed=None):
+    """Evaluate a trained agent without exploration.
+
+    The agent uses its learned policy, while the dummy player follows its fixed
+    strategy. The returned metrics are used for experiment comparison.
+    """
     agent_wins = 0
     total_turns = 0
     total_score_difference = 0

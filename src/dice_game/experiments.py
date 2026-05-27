@@ -1,3 +1,5 @@
+"""Experiment runners and CSV export for the Pig Q-learning project."""
+
 import csv
 from pathlib import Path
 
@@ -5,11 +7,12 @@ from q_agent import QAgent
 from dummy_player import create_dummy
 from trainer import train_agent
 from evaluation import evaluate_agent
-from reward import standard_reward, get_reward_function
+from reward import get_reward_function
 from policy_stats import experiment_policy_statistics
 import settings
 
 def experiment_training_iterations():
+    """Compare different numbers of training episodes."""
     results = []
 
     for episodes in settings.TRAINING_EPISODE_OPTIONS:
@@ -30,6 +33,7 @@ def experiment_training_iterations():
     return results
 
 def experiment_dummy_strategies():
+    """Train and evaluate agents against different dummy-player strategies."""
     results = []
 
     for train_dummy_name in settings.DUMMY_STRATEGIES.keys():
@@ -62,6 +66,12 @@ def run_training_and_evaluation(
         reward_name="standard",
         seed=None
 ):
+    """Train one agent configuration and evaluate it.
+
+    This helper keeps all experiment functions comparable. Each experiment
+    changes only one or two variables and reuses the same training/evaluation
+    pipeline.
+    """
 
     if alpha is None:
         alpha = settings.ALPHA
@@ -124,6 +134,7 @@ def run_training_and_evaluation(
     }
 
 def experiment_epsilon_values():
+    """Compare different epsilon values for exploration during training."""
     results = []
 
     for epsilon in settings.EPSILON_OPTIONS:
@@ -144,6 +155,7 @@ def experiment_epsilon_values():
     return results
 
 def experiment_reward_functions():
+    """Compare the standard reward with the step-penalty reward."""
     results = []
 
     for reward_name in settings.REWARD_FUNCTION_OPTIONS:
@@ -164,6 +176,7 @@ def experiment_reward_functions():
     return results
 
 def experiment_target_scores():
+    """Compare game difficulty with different target scores."""
     results = []
 
     for target_score in settings.TARGET_SCORE_OPTIONS:
@@ -184,6 +197,7 @@ def experiment_target_scores():
     return results
 
 def run_all_experiments():
+    """Run all experiment groups and export their CSV result files."""
     all_results = []
 
     training_results = experiment_training_iterations()
@@ -214,6 +228,11 @@ def run_all_experiments():
     return all_results
 
 def save_results_to_csv(results, filename):
+    """Save a list of result dictionaries as a CSV file.
+
+    Different experiments may have slightly different result columns. Therefore,
+    the fieldnames are collected from all rows instead of only the first row.
+    """
     if not results:
         print("No results to save.")
         return
